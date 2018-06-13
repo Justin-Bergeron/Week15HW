@@ -12,22 +12,38 @@ from flask import (
     redirect)
 
 from flask_sqlalchemy import SQLAlchemy
+import sqlalchemy
+from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm import Session
+from sqlalchemy import create_engine
+
+
+
 
 #################################################
 # Flask Setup
 #################################################
+from flask import Flask, jsonify, render_template
 app = Flask(__name__)
 
 #################################################
 # Database Setup
 #################################################
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db/bigfoot.sqlite"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db/belly_button_biodiversity.sqlite"
+
+base = automap_base()
+#reflect the tables
+Base.prepare(engine, reflect = True)
+session = Session(engine)
+
+
+
 
 db = SQLAlchemy(app)
 
 
-class Bigfoot(db.Model):
-    __tablename__ = 'bigfoot'
+class BB(db.Model):
+    __tablename__ = 'BB'
 
     id = db.Column(db.Integer, primary_key=True)
     number = db.Column(db.Integer)
